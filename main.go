@@ -19,6 +19,15 @@ var books = []Book{
 	{ID: "3", Title: "The Wizard of Oz", Author: "L. Frank Baum"},
 }
 
+func setupRouter() *gin.Engine {
+	r := gin.Default()
+	r.GET("/books", func(c *gin.Context) {
+		log.Println("Handling GET /books request")
+		c.JSON(http.StatusOK, books)
+	})
+	return r
+}
+
 // main is the entry point of the program.
 //
 // It initializes a new Gin router and defines a GET route for "/books".
@@ -28,15 +37,7 @@ var books = []Book{
 // No parameters are required.
 // No return values.
 func main() {
-	r := gin.New()
-
-	r.Use(gin.Logger())
-
-	r.GET("/books", func(c *gin.Context) {
-		log.Println("Handling GET /books request")
-		c.JSON(http.StatusOK, books)
-	})
-
+	r := setupRouter()
 	log.Println("Starting server on port 8080")
 	r.Run(":8080")
 }
