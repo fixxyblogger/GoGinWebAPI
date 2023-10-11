@@ -21,21 +21,25 @@ var books = []Book{
 
 func setupRouter() *gin.Engine {
 	r := gin.Default()
+
 	r.GET("/books", func(c *gin.Context) {
 		log.Println("Handling GET /books request")
 		c.JSON(http.StatusOK, books)
 	})
+	// Health check route
+	r.GET("/hc", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "ok",
+		})
+	})
 	return r
 }
 
-// main is the entry point of the program.
-//
-// It initializes a new Gin router and defines a GET route for "/books".
-// This route returns a JSON response with the HTTP status code 200 and the
-// list of books.
-//
-// No parameters are required.
-// No return values.
+// @Go Gin API
+// @version 1.0
+// @description This is a sample server for Your API.
+// @host localhost:8080
+// @BasePath /
 func main() {
 	r := setupRouter()
 	log.Println("Starting server on port 8080")
